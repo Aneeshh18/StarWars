@@ -11,16 +11,17 @@ const CharacterList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
-  const [genderFilter, setGenderFilter] = useState("all"); // Default filter to show all characters
+  const [genderFilter, setGenderFilter] = useState("all");
 
-  const fetchCharacter = async () => {
+  const fetchCharacter = async (url) => {
     try {
       setLoading(true);
-      const response = await fetch("https://swapi.dev/api/people/");
+      const response = await fetch(url || "https://swapi.dev/api/people/");
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
+      console.log(data);
       setCharacters(data.results);
       setNextPage(data.next);
       setPrevPage(data.previous);
@@ -36,9 +37,10 @@ const CharacterList = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = characters.filter((character) =>
-      character.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (genderFilter === "all" || character.gender === genderFilter)
+    const filtered = characters.filter(
+      (character) =>
+        character.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (genderFilter === "all" || character.gender === genderFilter)
     );
     setFilteredCharacters(filtered);
   }, [characters, searchQuery, genderFilter]);
@@ -62,7 +64,6 @@ const CharacterList = () => {
       fetchCharacter(nextPage);
     }
   };
-
 
   if (loading) {
     return <Loader />;
