@@ -94,6 +94,7 @@ const CharacterList = () => {
             <option value="all">All Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
+            <option value="n/a">N/A</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg
